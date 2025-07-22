@@ -6,3 +6,5 @@ Markdown==3.4.1
 Pillow==9.4.0
 pytz==2022.7.1
 sqlparse==0.4.3
+dj-rest-auth
+dj-rest-auth[with_social]
