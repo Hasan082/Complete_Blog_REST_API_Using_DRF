@@ -45,4 +45,7 @@ __pycache__
 *.coverage.txt
 *.coverage.*
 *.coverage.*
-*.coverage.*        
+*.coverage.*
+
+# Media files
+media/
