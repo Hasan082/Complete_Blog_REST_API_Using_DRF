@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -148,17 +149,5 @@ SPECTACULAR_SETTINGS = {
 }
 SITE_ID = 1
 
-# Disable CSRF for specific views (e.g., dj-rest-auth)
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_THROTTLE_CLASSES': [],
-}
 
-# Disable CSRF validation for API requests
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+
