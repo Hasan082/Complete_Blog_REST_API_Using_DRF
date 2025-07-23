@@ -3,9 +3,8 @@ from .models import Author, Blog
 # Register your models here.
 
 
-admin.site.site_header = "Blog Admin"
-admin.site.site_title = "Blog Admin Portal"
-admin.site.index_title = "Welcome to the Blog Admin Portal"
+admin.site.site_header = "Admin Panel"
+
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'email', 'bio')
