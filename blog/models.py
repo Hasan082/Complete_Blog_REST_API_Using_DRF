@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
-from .utils.file_uploads import unique_image_path
+from .utils.file_uploads import profile_image_upload_to, blog_image_upload_to
 
 User = get_user_model()
 
@@ -9,7 +9,7 @@ class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author_profile')
     full_name = models.CharField(max_length=100)
     bio = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to='authors/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to=profile_image_upload_to, blank=True, null=True)
 
     def __str__(self):
         return self.full_name
@@ -31,7 +31,7 @@ class Category(models.Model):
 class Blog(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='blogs')
     title = models.CharField(max_length=200)
-    blogImg = models.ImageField(upload_to=unique_image_path, blank=True, null=True)
+    blog_img = models.ImageField(upload_to=blog_image_upload_to("blogs"), blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
     categories = models.ManyToManyField(Category, related_name='blogs', blank=True)
