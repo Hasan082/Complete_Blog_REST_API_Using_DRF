@@ -8,6 +8,7 @@ User = get_user_model()
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author_profile')
     full_name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to=profile_image_upload_to, blank=True, null=True)
 

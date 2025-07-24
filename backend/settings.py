@@ -166,7 +166,7 @@ REST_FRAMEWORK = {
 # Uncomment and set pagination class in "REST_FRAMEWORK" if you have one
 # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
 # "PAGE_SIZE": 10,  # Adjust the number as needed
-
+# ?page=1&size=10
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Test API",
