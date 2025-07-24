@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Author, Blog, Category, Comment
+from .models import Author, Blog, Category
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -46,24 +46,3 @@ class BlogSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'slug', 'created_at', 'updated_at']
 
-# -------------------------------
-# Comment Serializer
-# -------------------------------
-class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)
-    blog_id = serializers.PrimaryKeyRelatedField(
-        queryset=Blog.objects.all(),
-        source='blog',
-        write_only=True
-    )
-
-    class Meta:
-        model = Comment
-        fields = ['id', 'blog_id', 'user', 'body', 'created_at', 'approved']
-        read_only_fields = ['id', 'user', 'created_at', 'approved']
-
-    def create(self, validated_data):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            validated_data['user'] = user
-        return super().create(validated_data)

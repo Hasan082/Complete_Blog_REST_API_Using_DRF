@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
+from .utils.file_uploads import unique_image_path
 
 User = get_user_model()
 
@@ -30,6 +31,7 @@ class Category(models.Model):
 class Blog(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='blogs')
     title = models.CharField(max_length=200)
+    blogImg = models.ImageField(upload_to=unique_image_path, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
     categories = models.ManyToManyField(Category, related_name='blogs', blank=True)
@@ -46,13 +48,3 @@ class Blog(models.Model):
         return self.title
 
 
-class Comment(models.Model):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'Comment by {self.name} on {self.blog}'

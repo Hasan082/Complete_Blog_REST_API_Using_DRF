@@ -4,27 +4,11 @@ info:
   version: 1.0.0
   description: Your project description
 paths:
-  /auth/account-confirm-email/:
-    post:
-      operationId: auth_account_confirm_email_create
-      description: |-
-        Verifies the email associated with the provided key.
-
-        Accepts the following POST parameter: key.
+  /api/authors/:
+    get:
+      operationId: api_authors_list
       tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VerifyEmail'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/VerifyEmail'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/VerifyEmail'
-        required: true
+      - Author
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -34,185 +18,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestAuthDetail'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
           description: ''
-  /auth/login/:
     post:
-      operationId: auth_login_create
-      description: |-
-        Check the credentials and return the REST Token
-        if the credentials are valid and authenticated.
-        Calls Django Auth login method to register User ID
-        in Django session framework
-
-        Accept the following POST parameters: username, password
-        Return the REST Framework Token Object's key.
+      operationId: api_authors_create
       tags:
-      - auth
+      - Author
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: '#/components/schemas/Author'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: '#/components/schemas/Author'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Login'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Token'
-          description: ''
-  /auth/logout/:
-    post:
-      operationId: auth_logout_create
-      description: |-
-        Calls Django logout method and delete the Token object
-        assigned to the current User object.
-
-        Accepts/Returns nothing.
-      tags:
-      - auth
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestAuthDetail'
-          description: ''
-  /auth/password/change/:
-    post:
-      operationId: auth_password_change_create
-      description: |-
-        Calls Django Auth SetPasswordForm save method.
-
-        Accepts the following POST parameters: new_password1, new_password2
-        Returns the success/fail message.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PasswordChange'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PasswordChange'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PasswordChange'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestAuthDetail'
-          description: ''
-  /auth/password/reset/:
-    post:
-      operationId: auth_password_reset_create
-      description: |-
-        Calls Django Auth PasswordResetForm save method.
-
-        Accepts the following POST parameters: email
-        Returns the success/fail message.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PasswordReset'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PasswordReset'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PasswordReset'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestAuthDetail'
-          description: ''
-  /auth/password/reset/confirm/:
-    post:
-      operationId: auth_password_reset_confirm_create
-      description: |-
-        Password reset e-mail link is confirmed, therefore
-        this resets the user's password.
-
-        Accepts the following POST parameters: token, uid,
-            new_password1, new_password2
-        Returns the success/fail message.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestAuthDetail'
-          description: ''
-  /auth/register/:
-    post:
-      operationId: auth_register_create
-      description: |-
-        Registers a new user.
-
-        Accepts the following POST parameters: username, email, password1, password2.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Register'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Register'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/Author'
         required: true
       security:
       - cookieAuth: []
@@ -223,105 +47,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Token'
+                $ref: '#/components/schemas/Author'
           description: ''
-  /auth/register/resend-email/:
-    post:
-      operationId: auth_register_resend_email_create
-      description: |-
-        Resends another email to an unverified email.
-
-        Accepts the following POST parameter: email.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ResendEmailVerification'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/ResendEmailVerification'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/ResendEmailVerification'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestAuthDetail'
-          description: ''
-  /auth/register/verify-email/:
-    post:
-      operationId: auth_register_verify_email_create
-      description: |-
-        Verifies the email associated with the provided key.
-
-        Accepts the following POST parameter: key.
-      tags:
-      - auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VerifyEmail'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/VerifyEmail'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/VerifyEmail'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestAuthDetail'
-          description: ''
-  /auth/reset/{uidb64}/{token}/:
-    post:
-      operationId: auth_reset_create
-      description: |-
-        Password reset e-mail link is confirmed, therefore
-        this resets the user's password.
-
-        Accepts the following POST parameters: token, uid,
-            new_password1, new_password2
-        Returns the success/fail message.
+  /api/authors/{id}/:
+    get:
+      operationId: api_authors_retrieve
       parameters:
       - in: path
-        name: token
+        name: id
         schema:
-          type: string
-        required: true
-      - in: path
-        name: uidb64
-        schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this author.
         required: true
       tags:
-      - auth
+      - Author
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    put:
+      operationId: api_authors_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
+      tags:
+      - Author
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: '#/components/schemas/Author'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: '#/components/schemas/Author'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: '#/components/schemas/Author'
         required: true
       security:
       - cookieAuth: []
@@ -332,260 +104,734 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestAuthDetail'
+                $ref: '#/components/schemas/Author'
           description: ''
-  /auth/user/:
-    get:
-      operationId: auth_user_retrieve
-      description: |-
-        Reads and updates UserModel fields
-        Accepts GET, PUT, PATCH methods.
-
-        Default accepted fields: username, first_name, last_name
-        Default display fields: pk, username, email, first_name, last_name
-        Read-only fields: pk, email
-
-        Returns UserModel fields.
+    patch:
+      operationId: api_authors_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
       tags:
-      - auth
+      - Author
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
       security:
       - cookieAuth: []
       - basicAuth: []
+      - {}
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDetails'
+                $ref: '#/components/schemas/Author'
           description: ''
-    put:
-      operationId: auth_user_update
-      description: |-
-        Reads and updates UserModel fields
-        Accepts GET, PUT, PATCH methods.
-
-        Default accepted fields: username, first_name, last_name
-        Default display fields: pk, username, email, first_name, last_name
-        Read-only fields: pk, email
-
-        Returns UserModel fields.
+    delete:
+      operationId: api_authors_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
       tags:
-      - auth
+      - Author
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/blogs/:
+    get:
+      operationId: api_blogs_list
+      tags:
+      - Blog
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Blog'
+          description: ''
+    post:
+      operationId: api_blogs_create
+      tags:
+      - Blog
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserDetails'
+              $ref: '#/components/schemas/Blog'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UserDetails'
+              $ref: '#/components/schemas/Blog'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UserDetails'
+              $ref: '#/components/schemas/Blog'
         required: true
       security:
       - cookieAuth: []
       - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+          description: ''
+  /api/blogs/{id}/:
+    get:
+      operationId: api_blogs_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this blog.
+        required: true
+      tags:
+      - Blog
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDetails'
+                $ref: '#/components/schemas/Blog'
           description: ''
-    patch:
-      operationId: auth_user_partial_update
-      description: |-
-        Reads and updates UserModel fields
-        Accepts GET, PUT, PATCH methods.
-
-        Default accepted fields: username, first_name, last_name
-        Default display fields: pk, username, email, first_name, last_name
-        Read-only fields: pk, email
-
-        Returns UserModel fields.
+    put:
+      operationId: api_blogs_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this blog.
+        required: true
       tags:
-      - auth
+      - Blog
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedUserDetails'
+              $ref: '#/components/schemas/Blog'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedUserDetails'
+              $ref: '#/components/schemas/Blog'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedUserDetails'
+              $ref: '#/components/schemas/Blog'
+        required: true
       security:
       - cookieAuth: []
       - basicAuth: []
+      - {}
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDetails'
+                $ref: '#/components/schemas/Blog'
           description: ''
+    patch:
+      operationId: api_blogs_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this blog.
+        required: true
+      tags:
+      - Blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBlog'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBlog'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBlog'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blog'
+          description: ''
+    delete:
+      operationId: api_blogs_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this blog.
+        required: true
+      tags:
+      - Blog
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/categories/:
+    get:
+      operationId: api_categories_list
+      tags:
+      - Category
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+          description: ''
+    post:
+      operationId: api_categories_create
+      tags:
+      - Category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/categories/{id}/:
+    get:
+      operationId: api_categories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - Category
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    put:
+      operationId: api_categories_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - Category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    patch:
+      operationId: api_categories_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - Category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    delete:
+      operationId: api_categories_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - Category
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/comments/:
+    get:
+      operationId: api_comments_list
+      tags:
+      - Comment
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+          description: ''
+    post:
+      operationId: api_comments_create
+      tags:
+      - Comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+  /api/comments/{id}/:
+    get:
+      operationId: api_comments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      tags:
+      - Comment
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    put:
+      operationId: api_comments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      tags:
+      - Comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    patch:
+      operationId: api_comments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      tags:
+      - Comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    delete:
+      operationId: api_comments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      tags:
+      - Comment
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
-    Login:
+    Author:
       type: object
       properties:
-        username:
-          type: string
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-      required:
-      - password
-    PasswordChange:
-      type: object
-      properties:
-        new_password1:
-          type: string
-          maxLength: 128
-        new_password2:
-          type: string
-          maxLength: 128
-      required:
-      - new_password1
-      - new_password2
-    PasswordReset:
-      type: object
-      description: Serializer for requesting a password reset e-mail.
-      properties:
-        email:
-          type: string
-          format: email
-      required:
-      - email
-    PasswordResetConfirm:
-      type: object
-      description: Serializer for confirming a password reset attempt.
-      properties:
-        new_password1:
-          type: string
-          maxLength: 128
-        new_password2:
-          type: string
-          maxLength: 128
-        uid:
-          type: string
-        token:
-          type: string
-      required:
-      - new_password1
-      - new_password2
-      - token
-      - uid
-    PatchedUserDetails:
-      type: object
-      description: User model w/o password
-      properties:
-        pk:
+        id:
           type: integer
           readOnly: true
-          title: ID
-        username:
-          type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        email:
-          type: string
-          format: email
-          readOnly: true
-          title: Email address
-        first_name:
-          type: string
-          maxLength: 150
-        last_name:
-          type: string
-          maxLength: 150
-    Register:
-      type: object
-      properties:
-        username:
-          type: string
-          maxLength: 150
-          minLength: 1
-        email:
-          type: string
-          format: email
-        password1:
-          type: string
-          writeOnly: true
-        password2:
-          type: string
-          writeOnly: true
-      required:
-      - password1
-      - password2
-      - username
-    ResendEmailVerification:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-    RestAuthDetail:
-      type: object
-      properties:
-        detail:
+        user:
           type: string
           readOnly: true
-      required:
-      - detail
-    Token:
-      type: object
-      description: Serializer for Token model.
-      properties:
-        key:
+        full_name:
           type: string
-          maxLength: 40
+          maxLength: 100
+        bio:
+          type: string
+        profile_picture:
+          type: string
+          format: uri
+          nullable: true
       required:
-      - key
-    UserDetails:
+      - full_name
+      - id
+      - user
+    Blog:
       type: object
-      description: User model w/o password
       properties:
-        pk:
+        id:
           type: integer
           readOnly: true
-          title: ID
-        username:
+        title:
           type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        email:
+          maxLength: 200
+        slug:
           type: string
-          format: email
           readOnly: true
-          title: Email address
-        first_name:
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
           type: string
-          maxLength: 150
-        last_name:
+        author:
+          allOf:
+          - $ref: '#/components/schemas/Author'
+          readOnly: true
+        author_id:
+          type: integer
+          writeOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+          readOnly: true
+        category_ids:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+        created_at:
           type: string
-          maxLength: 150
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_published:
+          type: boolean
       required:
-      - email
-      - pk
-      - username
-    VerifyEmail:
+      - author
+      - categories
+      - content
+      - created_at
+      - id
+      - slug
+      - title
+      - updated_at
+    Category:
       type: object
       properties:
-        key:
+        id:
+          type: integer
+          readOnly: true
+        name:
           type: string
-          writeOnly: true
+          maxLength: 50
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
       required:
-      - key
+      - id
+      - name
+      - slug
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        blog_id:
+          type: integer
+          writeOnly: true
+        user:
+          type: string
+          readOnly: true
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        approved:
+          type: boolean
+          readOnly: true
+      required:
+      - approved
+      - blog_id
+      - body
+      - created_at
+      - id
+      - user
+    PatchedAuthor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: string
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 100
+        bio:
+          type: string
+        profile_picture:
+          type: string
+          format: uri
+          nullable: true
+    PatchedBlog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+        author:
+          allOf:
+          - $ref: '#/components/schemas/Author'
+          readOnly: true
+        author_id:
+          type: integer
+          writeOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+          readOnly: true
+        category_ids:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_published:
+          type: boolean
+    PatchedCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+    PatchedComment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        blog_id:
+          type: integer
+          writeOnly: true
+        user:
+          type: string
+          readOnly: true
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        approved:
+          type: boolean
+          readOnly: true
   securitySchemes:
     basicAuth:
       type: http

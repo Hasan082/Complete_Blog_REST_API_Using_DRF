@@ -1,27 +1,27 @@
 from rest_framework import viewsets, permissions
-from .permissions import IsOwnerOrReadOnly
-from .models import Blog, Author, Category, Comment
+from .models import Blog, Author, Category
 from .serializers import (
     BlogSerializer,
     AuthorSerializer,
-    CategorySerializer,
-    CommentSerializer
+    CategorySerializer
 )
 from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(tags=['Author'])
-class AuthorViewset(viewsets.ModelViewSet):
+class AuthorViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
+
 @extend_schema(tags=['Blog'])
-class BloglistViewset(viewsets.ModelViewSet):
-    queryset = Blog.objects.select_related('author').prefetch_related('categories').filter(is_published=True)
+class BloglistViewset(viewsets.ReadOnlyModelViewSet):
+    queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 
 
@@ -29,11 +29,7 @@ class BloglistViewset(viewsets.ModelViewSet):
 class CategoryViewset(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     
-        
-@extend_schema(tags=['Comment'])
-class CommentViewset(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
+
