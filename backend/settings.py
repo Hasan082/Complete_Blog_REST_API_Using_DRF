@@ -151,11 +151,22 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 REST_FRAMEWORK = {
+    # Use DRF Permissions
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
+    # Spectacular settings
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # Pagination settings
+
+    "DEFAULT_PAGINATION_CLASS": "blog.pagination.BlogPagination"
 }
+
+# DEFAULT PAGINATION CLASS
+# Uncomment and set pagination class in "REST_FRAMEWORK" if you have one
+# "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+# "PAGE_SIZE": 10,  # Adjust the number as needed
+
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Test API",
