@@ -174,8 +174,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 ### Notes:
-
-* Notes: 
 * The Swagger UI is set up at /swagger/, using drf-spectacular, which automatically generates interactive API documentation based on your serializers and viewsets.
 
 * The ReDoc documentation is available at /redoc/ for an alternative API documentation view.
