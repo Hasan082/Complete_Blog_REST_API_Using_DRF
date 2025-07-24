@@ -136,6 +136,13 @@ STATICFILES_DIRS = [BASE_DIR / "backend" / "static"]
 # STATIC_ROOT = BASE_DIR / "staticfiles"  # For production use, uncomment this line to collect static files
 
 
+# Media files (User-uploaded content)
+# https://docs.djangoproject.com/en/5.0/topics/files/   
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
