@@ -11,6 +11,11 @@ class Author(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to=profile_image_upload_to, blank=True, null=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.pk or Author.objects.get(pk=self.pk).full_name != self.full_name:
+            self.slug = slugify(self.full_name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.full_name

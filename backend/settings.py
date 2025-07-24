@@ -159,7 +159,8 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # Pagination settings
 
-    "DEFAULT_PAGINATION_CLASS": "blog.pagination.BlogPagination"
+    "DEFAULT_PAGINATION_CLASS": "blog.pagination.BlogPagination",
+    "PAGE_SIZE": 10
 }
 
 # DEFAULT PAGINATION CLASS
