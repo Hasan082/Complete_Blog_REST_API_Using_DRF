@@ -13,4 +13,4 @@ router.register(r'categories', CategoryViewset, basename='category')
 
 
 
-urlpatterns = [] + router.urls
+urlpatterns = router.urls

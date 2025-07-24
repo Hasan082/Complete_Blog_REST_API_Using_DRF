@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Test API
+  title: Complete Blog REST API
   version: 1.0.0
-  description: Your project description
+  description: Complete Blog REST API with all possible functionality
 paths:
   /api/authors/:
     get:
@@ -21,33 +21,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-          description: ''
-    post:
-      operationId: api_authors_create
-      tags:
-      - Author
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Author'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Author'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Author'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Author'
           description: ''
   /api/authors/{id}/:
     get:
@@ -72,94 +45,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Author'
           description: ''
-    put:
-      operationId: api_authors_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this author.
-        required: true
-      tags:
-      - Author
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Author'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Author'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Author'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Author'
-          description: ''
-    patch:
-      operationId: api_authors_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this author.
-        required: true
-      tags:
-      - Author
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedAuthor'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedAuthor'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedAuthor'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Author'
-          description: ''
-    delete:
-      operationId: api_authors_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this author.
-        required: true
-      tags:
-      - Author
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
   /api/blogs/:
     get:
       operationId: api_blogs_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
       - Blog
       security:
@@ -171,36 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Blog'
-          description: ''
-    post:
-      operationId: api_blogs_create
-      tags:
-      - Blog
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Blog'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Blog'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Blog'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Blog'
+                $ref: '#/components/schemas/PaginatedBlogList'
           description: ''
   /api/blogs/{id}/:
     get:
@@ -210,7 +82,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this blog.
+        description: A unique integer value identifying this Blog Post.
         required: true
       tags:
       - Blog
@@ -225,91 +97,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Blog'
           description: ''
-    put:
-      operationId: api_blogs_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this blog.
-        required: true
-      tags:
-      - Blog
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Blog'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Blog'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Blog'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Blog'
-          description: ''
-    patch:
-      operationId: api_blogs_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this blog.
-        required: true
-      tags:
-      - Blog
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedBlog'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedBlog'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedBlog'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Blog'
-          description: ''
-    delete:
-      operationId: api_blogs_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this blog.
-        required: true
-      tags:
-      - Blog
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
   /api/categories/:
     get:
       operationId: api_categories_list
@@ -327,33 +114,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Category'
-          description: ''
-    post:
-      operationId: api_categories_create
-      tags:
-      - Category
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Category'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Category'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Category'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
           description: ''
   /api/categories/{id}/:
     get:
@@ -378,244 +138,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Category'
           description: ''
-    put:
-      operationId: api_categories_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
-      tags:
-      - Category
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Category'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Category'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Category'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-          description: ''
-    patch:
-      operationId: api_categories_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
-      tags:
-      - Category
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedCategory'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedCategory'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedCategory'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-          description: ''
-    delete:
-      operationId: api_categories_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
-      tags:
-      - Category
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /api/comments/:
-    get:
-      operationId: api_comments_list
-      tags:
-      - Comment
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Comment'
-          description: ''
-    post:
-      operationId: api_comments_create
-      tags:
-      - Comment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Comment'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Comment'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Comment'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-          description: ''
-  /api/comments/{id}/:
-    get:
-      operationId: api_comments_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this comment.
-        required: true
-      tags:
-      - Comment
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-          description: ''
-    put:
-      operationId: api_comments_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this comment.
-        required: true
-      tags:
-      - Comment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Comment'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Comment'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Comment'
-        required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-          description: ''
-    patch:
-      operationId: api_comments_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this comment.
-        required: true
-      tags:
-      - Comment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedComment'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedComment'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedComment'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-          description: ''
-    delete:
-      operationId: api_comments_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this comment.
-        required: true
-      tags:
-      - Comment
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
 components:
   schemas:
     Author:
@@ -640,6 +162,22 @@ components:
       - full_name
       - id
       - user
+    AuthorCompact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 100
+        profile_picture:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - full_name
+      - id
     Blog:
       type: object
       properties:
@@ -655,13 +193,14 @@ components:
           pattern: ^[-a-zA-Z0-9_]+$
         content:
           type: string
+        blog_img:
+          type: string
+          format: uri
+          nullable: true
         author:
           allOf:
-          - $ref: '#/components/schemas/Author'
+          - $ref: '#/components/schemas/AuthorCompact'
           readOnly: true
-        author_id:
-          type: integer
-          writeOnly: true
         categories:
           type: array
           items:
@@ -709,129 +248,26 @@ components:
       - id
       - name
       - slug
-    Comment:
+    PaginatedBlogList:
       type: object
       properties:
-        id:
+        count:
           type: integer
-          readOnly: true
-        blog_id:
-          type: integer
-          writeOnly: true
-        user:
+          example: 123
+        next:
           type: string
-          readOnly: true
-        body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        approved:
-          type: boolean
-          readOnly: true
-      required:
-      - approved
-      - blog_id
-      - body
-      - created_at
-      - id
-      - user
-    PatchedAuthor:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user:
-          type: string
-          readOnly: true
-        full_name:
-          type: string
-          maxLength: 100
-        bio:
-          type: string
-        profile_picture:
-          type: string
-          format: uri
           nullable: true
-    PatchedBlog:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        title:
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
           type: string
-          maxLength: 200
-        slug:
-          type: string
-          readOnly: true
-          pattern: ^[-a-zA-Z0-9_]+$
-        content:
-          type: string
-        author:
-          allOf:
-          - $ref: '#/components/schemas/Author'
-          readOnly: true
-        author_id:
-          type: integer
-          writeOnly: true
-        categories:
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/Category'
-          readOnly: true
-        category_ids:
-          type: array
-          items:
-            type: integer
-            writeOnly: true
-          writeOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_published:
-          type: boolean
-    PatchedCategory:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 50
-        slug:
-          type: string
-          readOnly: true
-          pattern: ^[-a-zA-Z0-9_]+$
-    PatchedComment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        blog_id:
-          type: integer
-          writeOnly: true
-        user:
-          type: string
-          readOnly: true
-        body:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        approved:
-          type: boolean
-          readOnly: true
+            $ref: '#/components/schemas/Blog'
   securitySchemes:
     basicAuth:
       type: http
