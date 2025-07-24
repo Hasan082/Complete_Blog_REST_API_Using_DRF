@@ -175,8 +175,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Notes:
 
-* The **`Swagger UI`** (`/docs/`) is set up using `drf-spectacular`, which automatically generates interactive API documentation based on your serializers and viewsets.
-* **Pagination** for the blog posts is handled using a custom pagination class in `pagination.py`.
+* Notes: 
+* The Swagger UI is set up at /swagger/, using drf-spectacular, which automatically generates interactive API documentation based on your serializers and viewsets.
+
+* The ReDoc documentation is available at /redoc/ for an alternative API documentation view.
+
+* Pagination for the blog posts is handled using a custom pagination class in pagination.py.
+
 * Make sure to test all endpoints and ensure your model relationships and migrations are properly set up.
+
+
 
 
