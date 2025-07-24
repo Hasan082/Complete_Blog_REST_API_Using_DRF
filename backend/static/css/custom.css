@@ -1,0 +1,17 @@
+.login-logo img {
+    max-width: 106px;
+    margin: 0 !important;
+}
+
+.sidebar .info {
+    text-transform: capitalize;
+}
+
+p.login-box-msg {
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.main-footer  .float-right {
+    display: none !important;
+}

@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 DJANGO_APPS = [
+    "jazzmin",  # Django admin interface customization
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,7 +47,7 @@ LOCAL_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "django_filters",
-    'django_cleanup.apps.CleanupConfig',
+    "django_cleanup.apps.CleanupConfig",
     "drf_spectacular",
 ]
 
@@ -131,6 +132,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "backend" / "static"]
+# STATIC_ROOT = BASE_DIR / "staticfiles"  # For production use, uncomment this line to collect static files
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -152,3 +156,58 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+
+# Jazzmin settings
+# For more information, see https://django-jazzmin.readthedocs.io/en/latest
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Blog Admin",
+    "site_header": "MY Blog",
+    "site_brand": "My Blog",
+    "site_logo": "dash_img/logo.png",
+    "login_logo": "dash_img/logo.png",
+    "site_logo_classes": "img-fluid",
+    "site_icon": "backend/img/favicon.png",
+    "welcome_sign": "Welcome to Our Blog",
+    "copyright": "@MD HASANUZZAMAN",
+    "search_model": ["auth.User", "auth.Group"],
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"app": "blog"},
+    ],
+    "usermenu_links": "",  # [{"model": "auth.user"}],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": ["auth", "blog", "blog.author", "blog.blog"],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.group": "fas fa-users",
+        "blog": "fas fa-blog",
+        "blog.blog": "fas fa-newspaper",  # Blog posts
+        "blog.author": "fas fa-user-edit",  # Author profile
+        "blog.category": "fas fa-folder-open",  # Blog categories (if you have one)
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": False,
+    "custom_css": "css/custom.css",
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs",
+    },
+    "language_chooser": True,
+}
+
+
+# Django Cleanup settings
+# Automatically delete old files when a new file is uploaded
+CLEANUP_ENABLED = True
+CLEANUP_IGNORE_UNMATCHED = True  # Prevent deletion if no file is found (safety)
+CLEANUP_VERBOSE = True  # Show logs during file deletion (helpful for debug)

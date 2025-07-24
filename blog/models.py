@@ -19,8 +19,8 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
+    def save(self, *args, **kwargs): 
+        if not self.pk or Category.objects.get(pk=self.pk).name != self.name:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -30,7 +30,7 @@ class Category(models.Model):
 
 class Blog(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='blogs')
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     blog_img = models.ImageField(upload_to=blog_image_upload_to("blogs"), blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
@@ -38,10 +38,20 @@ class Blog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Blog Post"
+        verbose_name_plural = "Blog Posts"
 
     def save(self, *args, **kwargs):
+        if not self.pk or Blog.objects.get(pk=self.pk).title != self.title:
+            self.slug = slugify(self.title)
         if not self.slug:
             self.slug = slugify(self.title)
+        if not self.author:
+            raise ValueError("Author must be set before saving a blog post.")
+
         super().save(*args, **kwargs)
 
     def __str__(self):
