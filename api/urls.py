@@ -6,11 +6,11 @@ from blog.views import (
     CategoryViewset
 )
 
-routers = routers.DefaultRouter()
-routers.register(r'authors', AuthorViewset)
-routers.register(r'blogs', BloglistViewset)
-routers.register(r'categories', CategoryViewset)
+router = routers.DefaultRouter()
+router.register(r'authors', AuthorViewset, basename='author')
+router.register(r'blogs', BloglistViewset, basename='blog')
+router.register(r'categories', CategoryViewset, basename='category')
 
 
 
-urlpatterns = [] + routers.urls
+urlpatterns = [] + router.urls

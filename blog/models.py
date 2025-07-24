@@ -49,6 +49,7 @@ class Blog(models.Model):
         ordering = ['-created_at']
         verbose_name = "Blog Post"
         verbose_name_plural = "Blog Posts"
+        ordering = ['-created_at']
 
     def save(self, *args, **kwargs):
         if not self.pk or Blog.objects.get(pk=self.pk).title != self.title:

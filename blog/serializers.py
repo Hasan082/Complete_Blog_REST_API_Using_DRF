@@ -15,6 +15,12 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'full_name', 'bio', 'profile_picture']
         read_only_fields = ['id', 'user']
         
+        
+class AuthorCompactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ['id', 'full_name', 'profile_picture']
+        read_only_fields = ['id']
 
 
 # -------------------------------
@@ -30,11 +36,10 @@ class CategorySerializer(serializers.ModelSerializer):
 # Blog Serializer
 # -------------------------------
 class BlogSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer(read_only=True)
-    author_id = serializers.PrimaryKeyRelatedField(
-        source='author', queryset=Author.objects.all(), write_only=True, required=False
-    )
+    author = AuthorCompactSerializer(read_only=True)
+      
     categories = CategorySerializer(many=True, read_only=True)
+    
     category_ids = serializers.PrimaryKeyRelatedField(
         source='categories', queryset=Category.objects.all(), many=True, write_only=True, required=False
     )
@@ -42,7 +47,7 @@ class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = [
-            'id', 'title', 'slug', 'content', 'blog_img', 'author', 'author_id',
+            'id', 'title', 'slug', 'content', 'blog_img', 'author',
             'categories', 'category_ids',
             'created_at', 'updated_at', 'is_published'
         ]
