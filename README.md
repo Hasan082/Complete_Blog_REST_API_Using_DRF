@@ -106,19 +106,23 @@ This will give you a visual interface to explore and test the API endpoints.
 
 ## Project Structure
 
-```
-.
-├── api/                        # Django app for the API
-│   ├── migrations/
-│   ├── models.py               # Models for Author, Blog, Category
-│   ├── serializers.py          # DRF serializers
-│   ├── views.py                # DRF viewsets
-│   ├── urls.py                 # URL routing for the API
-│   └── pagination.py           # Custom pagination for blogs
-├── manage.py                   # Django management script
-├── requirements.txt            # Project dependencies
-├── settings.py                 # Django settings
-└── README.md                   # Project documentation (this file)
+```.
+├── blog/                        # Blog Django app (models, serializers, utilities, pagination)
+│   ├── migrations/              # Database migrations for the blog app
+│   ├── models.py                # Models for Author, Blog, Category
+│   ├── serializers.py           # DRF serializers for blog, author, and category
+│   ├── pagination.py            # Custom pagination for blog posts
+│   ├── utils/                   # Utility functions (e.g., image processing)
+│   │   └── file_uploads.py      # File upload paths for profile images and blog images
+│   └── admin.py                 # Admin configurations for the blog models (if required)
+│
+├── api/                         # API routing and viewsets
+│   ├── urls.py                  # URL routing for API endpoints (viewsets and schemas)
+│
+├── manage.py                    # Django management script
+├── requirements.txt             # Project dependencies
+├── settings.py                  # Django settings
+└── README.md                    # Project documentation (this file)
 ```
 
 ---
