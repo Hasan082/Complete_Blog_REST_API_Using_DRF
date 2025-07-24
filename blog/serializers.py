@@ -14,6 +14,8 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = ['id', 'user', 'full_name', 'bio', 'profile_picture']
         read_only_fields = ['id', 'user']
+        
+
 
 # -------------------------------
 # Category Serializer
