@@ -170,8 +170,8 @@ REST_FRAMEWORK = {
 # ?page=1&size=10
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Test API",
-    "DESCRIPTION": "Your project description",
+    "TITLE": "Complete Blog REST API",
+    "DESCRIPTION": "Complete Blog REST API with all possible functionality",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
