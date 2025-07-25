@@ -160,6 +160,10 @@ REST_FRAMEWORK = {
    
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",  # Adjust this to your frontend URL
+]
+
 # GLOBAL PAGINATION CLASS
 # Uncomment and set pagination class in "REST_FRAMEWORK" if you have one
 # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
