@@ -29,6 +29,4 @@ admin.site.register(Blog, BlogAdmin)
 admin.site.register(Category, CategoryAdmin)
 
     
-# admin.site.register(Author)
-# admin.site.register(Blog)
-# admin.site.register(Category)
+

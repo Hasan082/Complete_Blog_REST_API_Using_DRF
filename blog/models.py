@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
-from .utils.file_uploads import profile_image_upload_to, blog_image_upload_to
+
 
 User = get_user_model()
 
@@ -10,11 +10,15 @@ class Author(models.Model):
     full_name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
     bio = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to=profile_image_upload_to, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to="authors", blank=True, null=True)
     
     def save(self, *args, **kwargs):
-        if not self.pk or Author.objects.get(pk=self.pk).full_name != self.full_name:
+        if not self.slug:
             self.slug = slugify(self.full_name)
+        if Author.objects.filter(slug=self.slug).exists() and not self.pk:
+            raise ValueError(f"Author with slug '{self.slug}' already exists.")
+        if not self.user:
+            raise ValueError("Author must have a user associated with it.")
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -26,8 +30,10 @@ class Category(models.Model):
     slug = models.SlugField(unique=True, blank=True)
 
     def save(self, *args, **kwargs): 
-        if not self.pk or Category.objects.get(pk=self.pk).name != self.name:
+        if not self.slug:
             self.slug = slugify(self.name)
+        if Category.objects.filter(slug=self.slug).exists() and not self.pk:
+            raise ValueError(f"Category with slug '{self.slug}' already exists.")
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -37,7 +43,7 @@ class Category(models.Model):
 class Blog(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='blogs')
     title = models.CharField(max_length=200, unique=True)
-    blog_img = models.ImageField(upload_to=blog_image_upload_to("blogs"), blank=True, null=True)
+    blog_img = models.ImageField(upload_to="blogs", blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
     categories = models.ManyToManyField(Category, related_name='blogs', blank=True)
@@ -52,12 +58,12 @@ class Blog(models.Model):
         ordering = ['-created_at']
 
     def save(self, *args, **kwargs):
-        if not self.pk or Blog.objects.get(pk=self.pk).title != self.title:
-            self.slug = slugify(self.title)
         if not self.slug:
             self.slug = slugify(self.title)
+        if Blog.objects.filter(slug=self.slug).exists() and not self.pk:
+            raise ValueError(f"Blog with slug '{self.slug}' already exists.")
         if not self.author:
-            raise ValueError("Author must be set before saving a blog post.")
+            raise ValueError("Blog must have an author.")
 
         super().save(*args, **kwargs)
 

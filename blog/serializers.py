@@ -12,15 +12,17 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Author
-        fields = ['id', 'user', 'full_name', 'bio', 'profile_picture']
-        read_only_fields = ['id', 'user']
+        fields = ['id', 'user', 'slug', 'full_name', 'bio', 'profile_picture']
+        read_only_fields = ['id', 'user', 'slug']
+  
         
         
 class AuthorCompactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['id', 'full_name', 'profile_picture']
-        read_only_fields = ['id']
+        fields = ['id', 'slug', 'full_name', 'profile_picture']
+        read_only_fields = ['id', 'slug']
+   
 
 
 # -------------------------------
