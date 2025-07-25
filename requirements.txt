@@ -6,4 +6,5 @@ Pillow==10.4.0
 sqlparse==0.4.3
 drf-spectacular
 django-cleanup
-django-jazzmin
+django-cors-headers
+django-jazzmin # for admin interface customization

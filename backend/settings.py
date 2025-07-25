@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "django_cleanup.apps.CleanupConfig",
     "drf_spectacular",
+    "corsheaders", 
 ]
 
 # Add all apps to INSTALLED_APPS
@@ -58,6 +59,7 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -163,6 +165,7 @@ REST_FRAMEWORK = {
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",  # Adjust this to your frontend URL
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 # GLOBAL PAGINATION CLASS
 # Uncomment and set pagination class in "REST_FRAMEWORK" if you have one
